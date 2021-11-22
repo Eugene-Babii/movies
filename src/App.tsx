@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
+import React from "react";
+import { BrowserRouter, Routes, Route} from "react-router-dom";
 import './App.css';
+import { Navbar } from "./components/Navbar";
+import { AllMoviesPage}  from "./pages/AllMoviesPage";
+import { DetailsPage } from "./pages/DetailsPage";
+import { FavouritesMoviesPage } from "./pages/FavouritesMoviesPage";
+import { IMovie } from "./interfaces/IMovie";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "./redux/rootReducer";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+
+
+const App: React.FC = () => {
+
+  const allMovies: IMovie[] = useSelector(
+    (state: RootState) => state.movies.allMovies
   );
-}
+    return (
+    <BrowserRouter>
+      {/* <Navbar countFavourites={favourites.length}/> */}
+      <Navbar/>
+      <div className="container">
+        <Routes>
+          <Route element={<AllMoviesPage />} path="/"/>    
+          <Route element={<FavouritesMoviesPage/>} path="/favourites"/>         
+          {/* <Route element={<DetailsPage movie={movie}/>}  path="/details/:id"/>     */}
+          <Route element={<DetailsPage path="/details/:id" />} />            
+          {/* <Route path="/details/:id" component={match => (
+            <DetailsPage movie={allMovies.find(movie => String(movie.id) === String(match.params.id))} />
+  )} */}
+        </Routes>
+      </div>
+      </BrowserRouter>
+ );
+};
 
 export default App;
