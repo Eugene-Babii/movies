@@ -3,6 +3,7 @@ import {NavLink} from "react-router-dom";
 import { IMovie } from "../interfaces/IMovie";
 import { useSelector} from 'react-redux'
 import { RootState } from "../redux/rootReducer";
+import { Link } from "react-router-dom";
 
 export const Navbar: React.FC=()=>{
 
@@ -11,7 +12,7 @@ export const Navbar: React.FC=()=>{
   return(
     <nav className="navbar sticky-top navbar-expand-lg navbar-dark bg-dark py-3">
       <div className="container">
-        <a className="navbar-brand text-info" href="/">Movies</a>
+        <Link className="navbar-brand text-primary" to="/" >Movies</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>

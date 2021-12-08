@@ -1,0 +1,38 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: on-boarding app
+tags:
+  - name: 'System page'
+    description: System page
+
+paths:
+  /:
+    get:
+      tags:
+        - System page
+      responses:
+        200:
+          description: Correct response
+  /healthz:
+    get:
+      tags:
+        - System page
+      responses:
+        200:
+          description: Correct response
+          content:
+            application/json:
+              example:
+                alive: "2021-04-01T16:35:58.471Z"
+  /test-env:
+    get:
+      tags:
+        - System page
+      responses:
+        200:
+          desciption:
+            content:
+              application/json:
+                example:
+                  some_vare: some_var_test

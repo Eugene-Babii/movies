@@ -1,6 +1,6 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { removeFavourite } from "../redux/actions";
+import { setFavourites, removeFavourite } from "../redux/actions";
 import { IMovie } from "../interfaces/IMovie";
 import { RootState } from "../redux/rootReducer";
 
@@ -12,10 +12,24 @@ export const FavouritesMoviesPage: React.FC = () => {
     (state: RootState) => state.movies.favourites
   );
 
+  useEffect(()=>{
+    fetch("http://localhost:3000/favourites")
+    .then(response => response.json())        
+    .then(data => dispatch(setFavourites(data)))
+  },[dispatch])
+
+  const removeFromFavourites=(id:number)=>{
+    fetch(`http://localhost:3000/favourites/${id}`,{
+      method: "DELETE"
+    });
+    
+    dispatch(removeFavourite(id));
+  }
+
   return (
-    <>
+    <div className="min-vh-100">
       <h1 className="text-white text-center p-4">Favourites movies</h1>
-      <div className="row g-3 pb-5">
+      <div className="row g-3 pb-5 ">
         {favourites.map((movie) => {
           const poster_url = IMAGE_URL + movie.poster_path;
           return (
@@ -29,11 +43,10 @@ export const FavouritesMoviesPage: React.FC = () => {
                 alt={movie.title}
               ></img>
               <div className="buttons-wrapper">
-                <div className="d-flex justify-content-between buttons">
-                  <button className="btn btnDetails me-1">Details</button>
+                <div className="d-grid gap-2 buttons">
                   <button
                     className="btn btnRemoveFavourites"
-                    onClick={() => dispatch(removeFavourite(movie))}
+                    onClick={() => removeFromFavourites(movie.id)}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -56,6 +69,6 @@ export const FavouritesMoviesPage: React.FC = () => {
           );
         })}
       </div>
-    </>
+    </div>
   );
 };
