@@ -1,28 +1,70 @@
-name: NodeJS with Webpack
+name: Notificate when change docs
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    branches: [ master, dev ]
 
 jobs:
-  build:
+  check:
+    name: Check files
+    outputs:
+      run_job: ${{ steps.check_files.outputs.run_job }}
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
-    
     steps:
-    - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: check modified files
+        id: check_files
+        run: |
+          echo "=============== list modified files ==============="
+          git diff --name-only HEAD^ HEAD
+          
+          echo "========== check paths of modified files =========="
+          git diff --name-only HEAD^ HEAD > files.txt
+          while IFS= read -r file
+          do
+            echo $file
+            if [[ $file != docs/* ]]; then
+              echo "This modified file is not under the 'docs' folder."
+              echo "::set-output name=run_job::false"
+              break
+            else
+              echo "::set-output name=run_job::true"
+            fi
+          done < files.txt
 
-    - name: Build
-      run: |
-        npm install
-        npx webpack
+  job_for_docs:
+    name: Notify in slack
+    needs: check
+    if: needs.check.outputs.run_job == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: run for 'docs' folder
+        run: echo "This job runs only when all the modified files are under the 'docs' folder."
+
+
+#  build:
+#    runs-on: ubuntu-latest
+#
+#    strategy:
+#      matrix:
+#        node-version: [12.x, 14.x, 16.x]
+#
+#    steps:
+#    - uses: actions/checkout@v2
+#
+#    - name: Use Node.js ${{ matrix.node-version }}
+#      uses: actions/setup-node@v1
+#      with:
+#        node-version: ${{ matrix.node-version }}
+#
+#    - name: Build
+#      run: |
+#        npm install
+#        npx webpack
+#
+
+
