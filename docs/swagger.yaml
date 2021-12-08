@@ -9558,3 +9558,10 @@ paths:
                       traceId: 'test'
                       message: 'test'
                       timestamp: 'test'
+
+                  test_example_2:
+                    error:
+                      code: 'test'
+                      traceId: 'test'
+                      message: 'test'
+                      timestamp: 'test'
