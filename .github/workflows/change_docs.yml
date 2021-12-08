@@ -56,7 +56,7 @@ jobs:
           SLACK_CHANNEL: ${{env.SLACK_CHANNEL}}
           SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
           SLACK_ICON: https://github.com/integrations.png?size=48
-          SLACK_MESSAGE: "Changes here: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
+          SLACK_MESSAGE: "Changes here: ${{ needs.check.outputs.url_commit }}"
           SLACK_TITLE: Files in docs changed
           SLACK_USERNAME: ${{env.SLACK_USERNAME}}
           SLACK_WEBHOOK: ${{secrets.SLACK_WEBHOOK}}
