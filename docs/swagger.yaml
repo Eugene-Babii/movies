@@ -9551,3 +9551,10 @@ paths:
                   traceId: 'p7tfv4HhzSKA5scY9-4k5'
                   message: 'Service Temporarily Not Available'
                   timestamp: '2021-04-05T20:59:17.007Z'
+
+                  test_example:
+                    error:
+                      code: 'test'
+                      traceId: 'test'
+                      message: 'test'
+                      timestamp: 'test'
