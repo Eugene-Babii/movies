@@ -60,3 +60,4 @@ jobs:
           SLACK_TITLE: Files in docs changed
           SLACK_USERNAME: ${{env.SLACK_USERNAME}}
           SLACK_WEBHOOK: ${{secrets.SLACK_WEBHOOK}}
+          MSG_MINIMAL: commit
