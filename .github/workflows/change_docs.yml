@@ -40,19 +40,23 @@ jobs:
             fi
           done < files.txt
 
-  job_for_docs:
-    name: Notify in slack
+  slackNotification:
+    name: Slack Notification
+    runs-on: ubuntu-latest
     needs: check
     if: needs.check.outputs.run_job == 'true'
-    uses: rtCamp/action-slack-notify@v2
-    env:
-      SLACK_CHANNEL: ${{env.SLACK_CHANNEL}}
-      SLACK_COLOR: 'green'
-      SLACK_ICON: https://github.com/integrations.png?size=48
-      SLACK_MESSAGE: ':exclamation: [DEV] Deployment failed for IAM Service ${{ github.event.head_commit.message }}'
-      SLACK_TITLE: Files in docs changed
-      SLACK_USERNAME: ${{env.SLACK_USERNAME}}
-      SLACK_WEBHOOK: ${{ secrets.TEST_SECRET }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: ${{env.SLACK_CHANNEL}}
+          SLACK_COLOR: 'green'
+          SLACK_ICON: https://github.com/integrations.png?size=48
+          SLACK_MESSAGE: ':exclamation: [DEV] Deployment failed for IAM Service ${{ github.event.head_commit.message }}'
+          SLACK_TITLE: Files in docs changed
+          SLACK_USERNAME: ${{env.SLACK_USERNAME}}
+          SLACK_WEBHOOK: ${{ secrets.TEST_SECRET }}
 
 #    runs-on: ubuntu-latest
 #    steps:
