@@ -56,4 +56,4 @@ jobs:
           SLACK_MESSAGE: 'Changes here: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/commit/$GITHUB_SHA'
           SLACK_TITLE: Files in docs changed
           SLACK_USERNAME: ${{env.SLACK_USERNAME}}
-          SLACK_WEBHOOK: ${{ secrets.DEV_SLACK_WEBHOOK }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
