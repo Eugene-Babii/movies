@@ -48,6 +48,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Slack Notification
+        run: |
+          echo "Changes here: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_CHANNEL: ${{env.SLACK_CHANNEL}}
